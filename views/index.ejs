@@ -1,0 +1,42 @@
+<%- include('blocks/head') %>
+    <div class="container">
+        <h1>Задачи:</h1>
+        <% if (tasks.length) { %>
+            <ul>
+                <% tasks.forEach(function(task) { %>
+                    <li class="task">
+                        <% 
+                            let days = task.daysLeft;
+                            let classAttr = ""
+                            
+                            if (task.completed) { 
+                                classAttr += "completed "; 
+                            } else if (days < 0 ) { 
+                                classAttr += "expired "; 
+                            }
+                        %>
+                        <form action="/complete" method="post">
+                            <label  class="<%= classAttr %>">
+                                <span> <%= task.text %> </span> 
+                                <span class="task-info">Вложения: <a href="<%= task.filename %>">скачать</a> </span>
+                                <input type="hidden" value="<%= task.id %>" name="id">                                
+                                <% if (!task.completed) { %>
+                                    <% if (days == 0) { %>
+                                        <span class="task-info">Сделать сегодня!</spanclass="task-info">
+                                    <% } else if (days < 0) { %> 
+                                        <span class="task-info">Дедлайн прошел!</span>
+                                    <% } else {%>
+                                        <span class="task-info">Дней осталось: <%= days %></span> 
+                                    <% } %>
+                                <% } %>
+                                <button class="hidden-button" type="submit">Выполнено</button>
+                            </label>
+                        </form>
+                    </li>                    
+                <% }); %>
+            </ul>
+        <% } else { %>
+            <p>На данный момент нет задач! <a href="/create">Создать.</a></p>
+        <% } %>
+    </div>   
+<%- include('blocks/footer') %>

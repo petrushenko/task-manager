@@ -1,0 +1,24 @@
+<%- include('blocks/head') %>
+
+<div class="container">
+    <div class="create-task">
+        <form action="/create" method="post" enctype="multipart/form-data">
+            <h2>Create Task</h2>
+            <div class="input-field">            
+                <label for="text">Задача:</label>
+                <input type="text" name="text" required>
+            </div> 
+            <div class="input-field">            
+                <label for="date">День дедлайна</label>
+                <input type="date" name="date" required>
+            </div>   
+            <div class="input-field">            
+                <label for="filedata">Вложения:</label>
+                <input type="file" name="filedata">
+            </div>      
+    
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form> 
+    </div>          
+</div>   
+<%- include('blocks/footer') %>
