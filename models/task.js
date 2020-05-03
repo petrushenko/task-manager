@@ -6,10 +6,6 @@ const Task = class {
         this.filename = filename
         this.completed = completed;
     }
-    
-    get daysLeft() {
-        return Math.ceil((new Date(this.endTime) - Date.now()) / (1000 * 3600*24));
-    }
 } 
 
 

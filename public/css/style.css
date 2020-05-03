@@ -9,46 +9,71 @@ body {
     text-align: left;
 }
 
-li.task {
-    list-style-type: none;
-}
-
-.task label.completed {
-    text-decoration: line-through;
-    background: limegreen;
-}
-
-.task label.expired {
-    background: red;
-}
-
-.task label {
-    width: 100%;
-    height: 100px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: left;
-    cursor: pointer;
-    background: rgb(233, 153, 222);
-    padding: 1rem;
+.btn-info {
+    width: 30% !important;
 }
 
 .hidden-button {
     display: none;
 }
 
+.create-task div {
+    width: 100%;
+}
+
 .create-task input {
     width: 100%;
 }
 
-.create-task {
-    display: flex;
+#completed {
+    width: 20px;
+}
+
+#file {
     width: 50%;
+}
+
+.create-task {
+    width: 100%;
+    display: flex;
     flex-direction: column;  
+    padding-bottom: 30px;
 }
 
-.task-info {
-    padding-left: 20px;
+.tasks-actions {
+    width: 60%;
 }
 
+.tasks {
+    width: 100%;
+}
+
+.completed-task {
+    background-color: green;
+}
+
+.non-completed-task {
+    background-color: lightblue;
+}
+
+.expired-task {
+    background-color: red;
+}
+
+.attention-task {
+    background-color: yellow;
+}
+
+.trash-image {
+    width: 200px;
+    height: 200px;
+}
+
+.deleted {
+    display: none;
+}
+
+.edit {
+    width: 25px;
+    height: 25px;
+}
