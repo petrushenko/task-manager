@@ -2,6 +2,7 @@ const express = require('express');
 const myRoutes = require('./routes/router');
 const multer  = require("multer");
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 const PORT = 4444;
 
@@ -11,7 +12,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.set('view engine', 'ejs');
-app.use('/public', express.static('public'))
+app.use('/public', express.static('public'));
 
 const storageConfig = multer.diskStorage({
     destination: (req, file, cb) =>{
@@ -24,6 +25,8 @@ const storageConfig = multer.diskStorage({
 
 app.use(multer({storage: storageConfig}).single("filedata")); //to read single file
 app.use(express.urlencoded({ extended: true })) //to parse req body
+
+app.use(cookieParser());
 
 app.use(myRoutes);
 
