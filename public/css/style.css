@@ -64,6 +64,10 @@ body {
     background-color: yellow;
 }
 
+.tommorow-task {
+    background-color: darkorange;
+}
+
 .trash-image {
     width: 200px;
     height: 200px;

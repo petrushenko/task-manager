@@ -21,7 +21,7 @@ function fillTasksTable(tasks) {
         row.dataset.task = task.id;
 
         let idCell = row.insertCell();
-        idCell.append(task.id);
+        idCell.append(task.id + 1);
 
         let text = row.insertCell();
         text.append(task.text);
@@ -36,13 +36,16 @@ function fillTasksTable(tasks) {
             if (days == 0) {
                 row.classList.add("attention-task");
                 daysLeftText = "Сделать сегодня!";
+            } else if (days == 1) {
+                row.classList.add("tommorow-task");
+                daysLeftText = "Сделать завтра!";
             } else if (days < 0){
                 row.classList.add("expired-task");
                 daysLeftText = "Дедлайн прошел!";
             }
             else {
                 row.classList.add("non-completed-task");
-                daysLeftText = days + "дня(ей)";
+                daysLeftText = days + " дня(ей)";
             }
         }
 
