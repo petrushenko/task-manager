@@ -3,13 +3,19 @@ const myRoutes = require('./routes/router');
 const multer  = require("multer");
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const PORT = 4444;
 
 const app = express();
 
+const http = require('http').createServer(app);
+
+const io = require('socket.io').listen(http);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(cors());
 
 app.set('view engine', 'ejs');
 app.use('/public', express.static('public'));
@@ -39,3 +45,50 @@ function start() {
 }
 
 start();
+
+const users = []
+const connections = []
+let tasks = []
+
+//SOCKET PART
+app.get("/socket", (req, res) => {
+    res.sendFile(__dirname + "/socket.html");
+});
+
+io.on('connection', (socket) => {
+    console.log("connection!");
+    connections.push(socket);
+    io.sockets.emit('fillTable', tasks);
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+        connections.splice(connections.indexOf(socket), 1);
+      });
+
+    socket.on("createTask", (data) => {
+        console.log(data);
+        data.id = tasks.length + 1;
+        data.completed = false;
+        tasks.push(data);
+        io.sockets.emit('fillTable', tasks);
+    })
+    socket.on("deleteTask", (id) => {
+        console.log(id);
+        console.log(tasks);
+        tasks = tasks.filter(t => t.id != Number(id));
+        console.log(tasks);
+        io.sockets.emit('fillTable', tasks);
+    });
+    socket.on("updateTask", (id) => {
+        let task = tasks.find(t => t.id == Number(id));
+        if (task != undefined) {
+            task.completed = !task.completed;
+        }
+        io.sockets.emit('fillTable', tasks);
+    })
+});
+
+http.listen(5555, () => {
+    console.log("Socket server started!");
+});
+
+
