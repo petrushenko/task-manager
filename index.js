@@ -91,4 +91,71 @@ http.listen(5555, () => {
     console.log("Socket server started!");
 });
 
+//GRAPHQL
+var graphqlHTTP = require('express-graphql');
+var { buildSchema } = require('graphql');
+
+var schema = buildSchema(`
+    type Query {
+        tasks: [Task!]!
+    }
+
+    type Mutation {
+        createTask(task: TaskWithOutId!): Task
+        updateTask(id: Int!): Task
+        deleteTask(id: Int!): Task
+    }
+    
+    input TaskWithOutId {
+        text: String!
+        endTime: String!
+    }
+
+    type Task {
+        id: Int!
+        text: String!
+        endTime: String!
+        completed: Boolean!
+    }
+`);
+
+
+const tasksStorage = require('./controllers/tasksRepository');
+
+var root = {
+    tasks: () => {
+        var tasks = tasksStorage.getAll();
+        console.log(tasks);
+        return tasks;
+    },
+    createTask: (task) => {
+        console.log(task);
+        var created = tasksStorage.create(task.task.text, new Date(task.task.endTime));
+        return created;
+    },
+    updateTask: (id) => {
+        console.log(id.id);
+
+        let task = tasksStorage.get(id.id);
+        task.completed = !task.completed;
+        tasksStorage.updateTask(task);
+        return task;
+    },
+    deleteTask: (id) => {
+        console.log(id);
+        tasksStorage.delete(id.id);
+        return id;
+    }
+};
+
+app.use('/graphql/', graphqlHTTP({
+    schema: schema,
+    rootValue: root,
+    graphiql: true,
+}));
+
+
+
+
+
 

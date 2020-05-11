@@ -181,6 +181,10 @@ router.get("/register", (req, res) => {
     res.sendFile(path.join(__dirname, "..", 'views/register.html'));
 })
 
+router.get("/graph", (req, res) => {
+    res.sendFile(path.join(__dirname, "..", 'graph.html'));
+})
+
 function verifyToken(req, res, next) {
     const token = req.cookies.token || "";
     try {
@@ -194,5 +198,6 @@ function verifyToken(req, res, next) {
         return res.status(500).json(err.toString());
     }
 }
+
 
 module.exports = router;
